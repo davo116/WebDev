@@ -1,0 +1,231 @@
+<html>
+	<title>Waiter View</title>
+	<body onload="populateSelect()">
+	
+		<label>Tables:</label><br>
+		<div class="tab">
+  			<button class="tablinks" onclick="openTable(event, 'table1')">Table 1</button>
+  			<button class="tablinks" onclick="openTable(event, 'table2')">Table 2</button>
+  			<button class="tablinks" onclick="openTable(event, 'table3')">Table 3</button>
+  			<button class="tablinks" onclick="openTable(event, 'table4')">Table 4</button>
+			<button class="tablinks" onclick="openTable(event, 'table5')">Table 5</button>
+		</div>
+		
+		<!-- Tab content -->
+		<div id="table1" class="tabcontent">
+		  Order: table 1
+		<table id="table">
+			<tr>
+				
+					<td>Menu Item</td>
+					<td>Quantity</td>
+					<td>Price</td>
+					<td>Time Ordered</td>
+					
+			</tr>
+		</table>
+		<br>
+		
+		<div class="menuItems">
+		<select id="menuOptions" name="menuOptions">
+			<option value="">---Select---</option>
+  				
+		</select>	
+		<select id="quantity">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+		</select>
+		<input type="button" value="Add to order" id="add" onclick="addToOrder()"></input>
+		<input type="button" value="Submit order"></input>
+
+		</div>
+		</div>
+
+		<div id="table2" class="tabcontent">
+		  Order: table 2
+		<table>
+			<tr>
+			<td>Type</td>
+			<td>Menu Item</td>
+			<td>Quantity</td>
+			<td>Price</td>
+			<td>Time Ordered</td>
+			</tr>
+		
+		</table>
+		<br>
+		<button id="add">Add to order</button>
+		</div>
+
+		<div id="table3" class="tabcontent">
+		  Order: table 3
+		<table>
+			<tr>
+			<td>Type</td>
+			<td>Menu Item</td>
+			<td>Quantity</td>
+			<td>Price</td>
+			<td>Time Ordered</td>
+			</tr>
+		
+		</table>
+		<br>
+		<button id="add">Add to order</button>
+		</div>
+		
+		<div id="table4" class="tabcontent">
+		  Order: table 4
+		<table>
+			<tr>
+			<td>Type</td>
+			<td>Menu Item</td>
+			<td>Quantity</td>
+			<td>Price</td>
+			<td>Time Ordered</td>
+			</tr>
+		
+		</table>
+		<br>
+		<button id="add">Add to order</button>
+		</div>
+		
+		<div id="table5" class="tabcontent">
+		  Order: table 5
+		<table>
+			<tr>
+				<td>Type</td>
+				<td>Menu Item</td>
+				<td>Quantity</td>
+				<td>Price</td>
+				<td>Time Ordered</td>
+			</tr>
+			
+		</table>
+		<br>
+		<button id="add">Add to order</button>
+		</div>
+		
+		<script>
+			var menu = [{Type:"Starter", MenuItem:"Fondue", Price:"4.60"},
+			{Type:"Main", MenuItem:"Pizza", Price:"7.50"}, 
+			{Type:"Drink", MenuItem:"Coke", Price:"1.90"},
+			{Type:"Side", MenuItem:"Dough balls", Price:"1.20"}, 
+			{Type:"Desert", MenuItem:"Ice cream", Price:"2.30"}];
+			
+			
+			function populateSelect()
+			{
+				var ele = document.getElementById('menuOptions');
+			
+				for (var i = 0; i < menu.length; i++) 
+				{
+					 // POPULATE SELECT ELEMENT WITH JSON.
+					ele.innerHTML = ele.innerHTML +'<option value="">' + menu[i]['MenuItem'] + '</option>';
+				}
+    		}
+		
+			function openTable(evt, tableNum) 
+			{
+			  // Declare all variables
+			  var i; 
+			  var tabcontent;
+			  var tablinks;
+
+			  // Get all elements with class="tabcontent" and hide them
+			  tabcontent = document.getElementsByClassName("tabcontent");
+			  for (i = 0; i < tabcontent.length; i++) 
+			  {
+					tabcontent[i].style.display = "none";
+			  }
+
+			  // Get all elements with class="tablinks" and remove the class "active"
+			  tablinks = document.getElementsByClassName("tablinks");
+			  for (i = 0; i < tablinks.length; i++) 
+			  {
+					tablinks[i].className = tablinks[i].className.replace(" active", "");
+			  }
+
+			  // Show the current tab, and add an "active" class to the button that opened the tab
+			  document.getElementById(tableNum).style.display = "block";
+			  evt.currentTarget.className += " active";
+			}
+			
+			
+			
+			function addToOrder()
+			{
+				var table = document.getElementById("table");
+				var rowCount = table.rows.length;
+				var tableRow = table.insertRow(rowCount);
+				var cell1 = tableRow.insertCell(0);
+				var cell2 = tableRow.insertCell(1);
+				var cell3 = tableRow.insertCell(2);
+				var cell4 = tableRow.insertCell(3);
+				
+				var opt = document.getElementById('menuOptions');
+				var selectedOption = opt.options[opt.selectedIndex].text;
+				var quant = document.getElementById('quantity');
+				var selectedQuantity = quant.options[quant.selectedIndex].text;
+
+				var today = new Date();
+				var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+				var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+				var dateTime = date+' '+time; 
+				
+				cell1.innerHTML = selectedOption;
+				cell2.innerHTML = selectedQuantity;
+				//cell3.innerHTML == price
+				cell4.innerHTML = dateTime;
+			}	
+		</script>
+		
+		<style>
+			/* Style the tab */
+			.tab {
+			  overflow: hidden;
+			  border: 1px solid #ccc;
+			  background-color: #f1f1f1;
+			}
+
+			/* Style the buttons that are used to open the tab content */
+			.tab button {
+			  background-color: inherit;
+			  float: left;
+			  border: none;
+			  outline: none;
+			  cursor: pointer;
+			  padding: 14px 16px;
+			  transition: 0.3s;
+			}
+
+			/* Change background color of buttons on hover */
+			.tab button:hover {
+			  background-color: #ddd;
+			}
+
+			/* Create an active/current tablink class */
+			.tab button.active {
+			  background-color: #ccc;
+			}
+
+			/* Style the tab content */
+			.tabcontent {
+			  display: none;
+			  padding: 6px 12px;
+			  border: 1px solid #ccc;
+			  border-top: none;
+			}
+			
+			table {
+  				border-collapse: collapse;
+			}
+
+			table, th, td {
+  				border: 1px solid black;
+			}
+		</style>
+	</body>
+</html>
