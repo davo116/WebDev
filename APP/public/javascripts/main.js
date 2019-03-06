@@ -2,22 +2,12 @@ $(document).ready(function(){
 
     $("#logout").click(function(){
         $.ajax({
-            type : 'POST',
+            type : 'GET',
             url : '/logout',
             success: function(data){
             }
         });
     });
-
-    $("#kitchen").click(function(){
-        $.ajax({
-            type : 'POST',
-            url : '/kitchen',
-            success: function(data){
-            }
-        });
-    });
-
 
     setTimeout(function updateKitchen() {
         //console.log("Orders Updated");
@@ -66,7 +56,7 @@ $(document).ready(function(){
                 var comp_order = document.getElementsByName('comp_order');
                 for(var i=0; i<comp_order.length; i++){
                     comp_order[i].onclick = function() {
-                        var check = confirm('Delete Confirmation...');
+                        var check = confirm('Confirmation this order is complete...');
                         if(check == true) {
                             var id = this.parentElement.id;
                             //console.log(id);
@@ -88,6 +78,149 @@ $(document).ready(function(){
         }); 
 
         setTimeout(updateKitchen, 10000);
+    });
+
+
+
+
+
+
+    setTimeout(function updateCounter() {
+        //console.log("Orders Updated");
+
+        $.ajax({
+            type : 'POST',
+            url : '/completed_orders',
+            success: function(data, status){
+
+                data = JSON.parse(data);
+                var html = "<table class='table table-responsive table-striped table-light'><thead class='thead-dark'><tr><th>Order ID</th><th>CompletionTime</th><th>Table Number</th><th>Order</th><th>Total</th><th></th><th></th><th></th></tr></thead>";
+                for (var i = 0; i < data.length; i++) {
+
+                    var currentDate = Date.now();
+
+
+                    html+="<tbody id='orderTable'><tr id="+data[i]._id+">";
+                    html+="<td>"+data[i]._id+"</td>";
+                    html+="<td>"+data[i].order_time+"</td>";
+                    html+="<td>"+data[i].table_no+"</td>";
+                    html+="<td>"+data[i].order+"</td>";
+                    html+="<td>£"+data[i].total+"</td>";
+
+                    html+="<td id="+data[i]._id+" name='save_bill'><button type='button' class='btn btn-primary btn-sm'>Save</button></td>";
+                    html+="<td id="+data[i]._id+" name='print_bill'><button type='button' class='btn btn-success btn-sm' data-toggle='modal' data-target='#myModal'>Print</button></td>";
+                    html+="<td id="+data[i]._id+" name='del_bill'><button type='button' class='btn btn-danger btn-sm'>Delete</button></td>";
+
+                    html+="</tr></tbody>";
+                }
+                html+="</table>";
+                $("#com_order_list").html(html);
+
+
+                var save_bill = document.getElementsByName('save_bill');
+                for(var i=0; i<save_bill.length; i++){
+                    save_bill[i].onclick = function() {
+                        var check = confirm('Do you want to save this bill?');
+                        if(check == true) {
+                            var id = this.parentElement.id;
+                            //console.log(id);
+                            $.ajax({
+                                type : 'POST',
+                                url : '/save_bill',
+                                data: {_id: id},
+                                success: function(data){
+                                }
+                            });
+
+                        };
+                    }
+                }
+
+
+                var print_bill = document.getElementsByName('print_bill');
+                for(var i=0; i<print_bill.length; i++){
+                    print_bill[i].onclick = function() {
+                        var check = confirm('Do you want to print this bill?');
+                        if(check == true) {
+                            var id = this.parentElement.id;
+                            //console.log(id);
+                            $.ajax({
+                                type : 'POST',
+                                url : '/print_bill',
+                                data: {_id: id},
+                                success: function(data){
+                                }
+                            });
+
+                        };
+                    }
+                }
+
+                var del_bill = document.getElementsByName('del_bill');
+                for(var i=0; i<del_bill.length; i++){
+                    del_bill[i].onclick = function() {
+                        var check = confirm('Do you want to delete this bill?');
+                        if(check == true) {
+                            var id = this.parentElement.id;
+                            //console.log(id);
+                            $.ajax({
+                                type : 'POST',
+                                url : '/del_bill',
+                                data: {_id: id},
+                                success: function(data){
+                                }
+                            });
+                            this.parentElement.style.display = 'none';
+                        };
+                    }
+                }
+
+
+
+
+
+
+
+            }
+        }); 
+
+        setTimeout(updateCounter, 60000);
+    });
+
+
+
+
+
+    setTimeout(function updateMenu() {
+        //console.log("Orders Updated");
+
+        $.ajax({
+            type : 'POST',
+            url : '/menu_request',
+            success: function(data, status){
+
+                data = JSON.parse(data);
+                var html = "<select class='form-control' id='add_item' name='add_item'>";
+                var html2 = "<select class='form-control'>";
+                var html3 = "<select class='form-control' id='upd_item' name='upd_item'>";
+                var html4 = "<select class='form-control' id='del_item' name='del_item'>";
+                for (var i = 0; i < data.length; i++) {
+
+                    html+="<option>"+data[i].desc+"</option>";
+                    html2+="<option>"+data[i].desc+" [£"+data[i].price+"]</option>";
+                    html3+="<option>"+data[i].desc+"</option>";
+                    html4+="<option>"+data[i].desc+"</option>";
+
+                }
+                html+="</select>";
+                $("#test_list").html(html);
+                $("#menu_list_view").html(html2);
+                $("#upd_menu_list").html(html3);
+                $("#del_menu_list").html(html4);
+                
+            }
+        }); 
+        setTimeout(updateMenu, 60000);
     });
 
     function orderComplete(order_id) {
@@ -116,7 +249,7 @@ function newElement1(){
             //alert("\nData: " + data);
             total = total + JSON.parse(data);
             //console.log(total);
-            document.getElementById('total').innerHTML = total;
+            document.getElementById('total').innerHTML = total.toFixed(2);
         }
     });
 
@@ -149,45 +282,58 @@ function newElement1(){
     var del = document.getElementsByClassName('delBtn');
     for(var i=0; i<del.length; i++){
         del[i].onclick = function() {
-/*            var check = confirm('Delete Confirmation...');
+            /*            var check = confirm('Delete Confirmation...');
             if(check == true) {*/
-                //get text object and its text data from element 
-                var text = this.parentElement.firstChild.data;
-                //console.log(text);
+            //get text object and its text data from element 
+            var text = this.parentElement.firstChild.data;
+            //console.log(text);
 
-                $.ajax({
-                    type : 'POST',
-                    url : '/item',
-                    data: {desc: text},
-                    success: function(data){
-                        //alert("\nData: " + data);
-                        total = total - JSON.parse(data);
-                        //console.log(total);
-                        document.getElementById('total').innerHTML = total;
-                    }
-                });
-
-                //store index number where 'text' value is found wihtin the array
-                var a = array.indexOf(text);
-                //console.log(a);
-
-                //loop through array for value and remove it if found
-                for (var i = 0; i < array.length; i++){
-                    if(array[i] === text){
-                        array.splice(i,1);
-                        break;
-                    }
+            $.ajax({
+                type : 'POST',
+                url : '/item',
+                data: {desc: text},
+                success: function(data){
+                    //alert("\nData: " + data);
+                    total = total - JSON.parse(data);
+                    //console.log(total);
+                    document.getElementById('total').innerHTML = total.toFixed(2);
                 }
+            });
 
-                // log updated array
-                //console.log(array);
-                //console.log(JSON.stringify(array));
-                document.getElementById('order_text').innerHTML = array;
-                // Hide element
-                this.parentElement.style.display = 'none';
+            //store index number where 'text' value is found wihtin the array
+            var a = array.indexOf(text);
+            //console.log(a);
+
+            //loop through array for value and remove it if found
+            for (var i = 0; i < array.length; i++){
+                if(array[i] === text){
+                    array.splice(i,1);
+                    break;
+                }
+            }
+
+            // log updated array
+            //console.log(array);
+            //console.log(JSON.stringify(array));
+            document.getElementById('order_text').innerHTML = array;
+            // Hide element
+            this.parentElement.style.display = 'none';
             /*}*/
         }
     }
+}
+
+function delMenuItem(){
+    var inputValue = document.getElementById('del_item').value;
+
+    $.ajax({
+        type : 'POST',
+        url : '/del_item',
+        data: {desc: inputValue},
+        success: function(data){
+        }
+    });
+
 }
 
 function clearOrder(){
