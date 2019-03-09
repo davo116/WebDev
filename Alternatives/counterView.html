@@ -1,0 +1,103 @@
+<html>
+	<body onload="populateSelect()">
+	
+		Select table:
+		<select id="tableNum">
+		 	<option value="">---Select---</option>
+		</select>
+		<input type="button" value="Get bill" id="getBill" onclick="getBill()"></input>
+		<br><br>
+		<table id="table">
+		<label>Your Bill</label>
+			<tr>
+					<td>Menu Items</td>
+					<td>Total Price</td>
+			</tr>
+		</table>
+		<br>
+		<input type="button" value="Print Bill" id="print" onclick="printData()"></input> 
+	
+		<script>
+		var totalOrders = [{tableNumber:"1", menuItems:"Coke, Fondue, Pizza", totalPrice:"£15.20"},
+		{tableNumber:"2", menuItems:"Coke, Fondue, Ice Cream", totalPrice:"£12.60"},
+		{tableNumber:"3", menuItems:"Coke, Ice Cream", totalPrice:"£10.60"}];
+		
+		function populateSelect()
+		{
+			var ele = document.getElementById('tableNum');
+		
+			for (var i = 0; i < totalOrders.length; i++) 
+			{
+				
+				ele.innerHTML = ele.innerHTML +'<option value="">' + totalOrders[i]['tableNumber'] + '</option>';
+			}
+		}
+		
+		function getBill()
+		{
+			var opt = document.getElementById('tableNum');
+			var selectedOption = opt.options[opt.selectedIndex].text;
+			
+			var tableClear = document.getElementById('table');
+			for(var i = tableClear.rows.length - 1; i > 0; i--)
+			{
+    			tableClear.deleteRow(i);
+			}
+			
+			if(selectedOption == 1)
+			{
+				bill1();
+			}
+			if(selectedOption == 2)
+			{
+				bill2();
+			}
+			if(selectedOption == 3)
+			{
+				bill3();
+			}
+		}	
+		
+		function bill1()
+		{
+			var tableFill = document.getElementById('table');
+			tableFill.innerHTML = tableFill.innerHTML +'<tr><td>' + totalOrders[0]['menuItems'] + '</td><td>' + totalOrders[0]['totalPrice'] + '</td></tr>';
+		}
+		
+		function bill2()
+		{
+			var tableFill = document.getElementById('table');
+			tableFill.innerHTML = tableFill.innerHTML +'<tr><td>' + totalOrders[1]['menuItems'] + '</td><td>' + totalOrders[1]['totalPrice'] + '</td></tr>';
+		}
+		
+		function bill3()
+		{
+			var tableFill = document.getElementById('table');
+			tableFill.innerHTML = tableFill.innerHTML +'<tr><td>' + totalOrders[2]['menuItems'] + '</td><td>' + totalOrders[2]['totalPrice'] + '</td></tr>';
+		}
+		
+		function printData()
+		{
+			var divToPrint=document.getElementById("table");
+			newWindow = window.open("");
+			newWindow.document.write(divToPrint.outerHTML);
+			newWindow.print();
+			newWindow.close();
+		}
+		</script>
+		
+		
+		<style>
+		table {
+  				border-collapse: collapse;
+			}
+
+			table, th, td {
+  				border: 1px solid black;
+			}
+		body{
+			margin-left:600px;
+		}	
+	</style>
+	</body>
+</html>
