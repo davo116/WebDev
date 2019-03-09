@@ -17,7 +17,7 @@
         <script src='/javascripts/main.js'></script>
     </head>
 
-    <body style="background-color: dimgrey">
+    <body style="background-color: white">
         <!--        Page Container-->
         <div class="container-fluid">
 
@@ -85,16 +85,16 @@
                                     <label for="order_text">Order</label>
                                     <ul id="order_ul"></ul>
                                     <p id="order_string" style="display: none;"></p>
-                                    <textarea class="form-control" rows="5" id="order_text" name="order_text" readonly ></textarea>
-                                    <button type="button" onclick="clearOrder()" class="btn btn-primary ">Clear All</button>
+                                    <textarea class="form-control" rows="5" id="order_text" name="order_text" readonly required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="order_text">Additional Notes</label>
                                     <textarea class="form-control" rows="2" id="note_text" name="note_text"></textarea>
+                                    <button type="button" onclick="clearOrder()" class="btn btn-primary ">Clear All</button>
                                 </div>
                                 <div class="form-group">
                                     <label for="total">Total (£)</label>
-                                    <textarea class="form-control" rows="1" id="total" min="0" name="total" readonly></textarea>
+                                    <textarea class="form-control" rows="1" id="total" min="0" name="total" readonly required></textarea>
                                 </div>
                                 <button type="submit" value="Send" class="btn btn-primary btn-block">Place Order</button>
                             </form>

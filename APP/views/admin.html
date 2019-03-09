@@ -63,8 +63,8 @@
                             <form id="add_item_form" action="add_item" method="post" style="margin:5px">
                                 <div class="form-group">
                                     <label for="add_item">Add Menu Item</label>
-                                    <input type="text" class="form-control" id="add_item" name="add_item" placeholder="Item Name">
-                                    <input type="number" step="0.01" class="form-control" id="add_price" name="add_price" placeholder="0.00">
+                                    <input type="text" class="form-control" id="add_item" name="add_item" placeholder="Item Name" required>
+                                    <input type="number" step="0.01" class="form-control" id="add_price" name="add_price" placeholder="0.00" min="0" required>
                                     <button type="submit" value="Send" class="btn btn-primary btn-block">Add Item</button>
                                 </div>
                             </form>
@@ -79,7 +79,7 @@
                                 <div class="form-group">
                                     <label for="table">Update Item Price</label>
                                     <div id="upd_menu_list"></div>
-                                    <input type="number" step="0.01" class="form-control" id="upd_price" name="upd_price" placeholder="0.00">
+                                    <input type="number" step="0.01" class="form-control" id="upd_price" name="upd_price" placeholder="0.00" min="0" required>
                                     <button type="submit" value="Send" class="btn btn-primary btn-block">Update Item</button>
                                 </div>
                             </form>
