@@ -46,6 +46,11 @@ router.post('/login', function(req, res){
     });
 });
 
+//POST user clicks to login
+router.post('/logout', function(req, res){
+    console.log("test logout");
+});
+
 
 
 
@@ -149,8 +154,15 @@ router.post('/place_order', function(req, res) {
             console.log("1 customer order inserted");
             db.close();
         });
-        res.redirect('/waiter');
+        //res.redirect('/waiter');
+
+        res.render('waiter', { 
+            data: '',
+            title: 'Order Form',
+            description: 'Place orders here.'
+        });
     });
+
 });
 
 
@@ -229,6 +241,8 @@ router.post('/deleteOrder', function(req, res) {
             }
         });
     });
+    res.send("OK");
+    res.end();
 });
 
 
@@ -284,17 +298,35 @@ router.post('/save_bill', function(req, res) {
                         db.close();
                     });
                 });
-
                 db.close();
             }
         });
     });
+
+    res.send("OK");
+    res.end();
 });
 
 //POST print bill
 router.post('/print_bill', function(req, res) {
 
+    MongoClient.connect(url, function(err,db){ 
+        if (err) throw err;
+        var dbo = db.db('res_db');
 
+        var ObjectId = require('mongodb').ObjectId;
+        var objectid = new ObjectId(req.body._id);
+
+        var myquery = {_id: objectid};
+
+        dbo.collection("com_orders").find(myquery).sort({order_time: -1}).toArray(function(err, results) {
+            if (err) throw err;
+            res.send(JSON.stringify(results));
+            res.end();
+            db.close();
+        });
+
+    });
 
 });
 
@@ -316,7 +348,8 @@ router.post('/del_bill', function(req, res) {
             db.close();
         });
     });
-
+    res.send("OK");
+    res.end();
 });
 
 
@@ -346,7 +379,8 @@ router.post('/add_item', function(req, res) {
                 db.close();
             }
         });
-        res.redirect('/admin');
+        //res.redirect('/admin');
+        res.render('admin');
     });
 });
 
@@ -370,8 +404,9 @@ router.post('/del_item', function(req, res) {
                 console.log("1 menu item deleted");
                 db.close();
             }
-            res.redirect('/admin');
+            
         });
+        res.redirect('/admin');
     });
 
 
@@ -395,7 +430,8 @@ router.post('/upd_item', function(req, res) {
             console.log("1 menu item price updated");
             db.close();
         });
-        res.redirect('/admin');
+        //res.redirect('/admin');
+        res.render('admin');
     });
 });
 
