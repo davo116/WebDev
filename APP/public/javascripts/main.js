@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     $("#logout").click(function(){
         $.ajax({
-            type : 'GET',
+            type : 'POST',
             url : '/logout',
             success: function(data){
             }
@@ -20,15 +20,14 @@ $(document).ready(function(){
                 //alert("\nData: " + data); // check if data successfully sent
 
                 data = JSON.parse(data);
-                var html = "<table class='table table-responsive table-striped table-light'><thead class='thead-dark'><tr><th>Order ID</th><th>Time/Date</th><th>Table Number</th><th>Order</th><th>Notes</th><th>Waiting Time</th><th>Total</th><th>Action</th></tr></thead>";
+                var html = "<table class='table table-responsive table-striped table-light'><thead class='thead-dark'><tr><th>Time/Date</th><th>Table Number</th><th>Order</th><th>Notes</th><th>Waiting Time</th><th>Total</th><th>Action</th></tr></thead>";
                 for (var i = 0; i < data.length; i++) {
 
                     var currentDate = Date.now();
 
-
                     html+="<tbody id='orderTable'><tr id="+data[i]._id+">";
-                    html+="<td>"+data[i]._id+"</td>";
-                    html+="<td>"+data[i].order_time+"</td>";
+                    //html+="<td>"+data[i]._id+"</td>";
+                    html+="<td>"+new Date(data[i].order_time)+"</td>";
                     html+="<td>"+data[i].table_no+"</td>";
                     html+="<td>"+data[i].order+"</td>";
                     html+="<td>"+data[i].notes+"</td>";
@@ -52,7 +51,6 @@ $(document).ready(function(){
                 html+="</table>";
                 $("#order_list").html(html);
 
-
                 var comp_order = document.getElementsByName('comp_order');
                 for(var i=0; i<comp_order.length; i++){
                     comp_order[i].onclick = function() {
@@ -65,6 +63,7 @@ $(document).ready(function(){
                                 url : '/deleteOrder',
                                 data: {_id: id},
                                 success: function(data){
+                                    alert("Completion Sent");
                                 }
                             });
                             this.parentElement.style.display = 'none';
@@ -94,15 +93,17 @@ $(document).ready(function(){
             success: function(data, status){
 
                 data = JSON.parse(data);
-                var html = "<table class='table table-responsive table-striped table-light'><thead class='thead-dark'><tr><th>Order ID</th><th>CompletionTime</th><th>Table Number</th><th>Order</th><th>Total</th><th></th><th></th><th></th></tr></thead>";
+                var count = 0;
+                var header = "Counter";
+                var html = "<table class='table table-responsive table-striped table-light'><thead class='thead-dark'><tr><th>CompletionTime</th><th>Table Number</th><th>Order</th><th>Total</th><th></th><th></th><th></th></tr></thead>";
                 for (var i = 0; i < data.length; i++) {
 
                     var currentDate = Date.now();
-
+                    count = count + 1;
 
                     html+="<tbody id='orderTable'><tr id="+data[i]._id+">";
-                    html+="<td>"+data[i]._id+"</td>";
-                    html+="<td>"+data[i].order_time+"</td>";
+                    //html+="<td>"+data[i]._id+"</td>";
+                    html+="<td>"+new Date(data[i].order_time)+"</td>";
                     html+="<td>"+data[i].table_no+"</td>";
                     html+="<td>"+data[i].order+"</td>";
                     html+="<td>£"+data[i].total+"</td>";
@@ -115,6 +116,7 @@ $(document).ready(function(){
                 }
                 html+="</table>";
                 $("#com_order_list").html(html);
+                $("#counterHead").html(header + " (" + count + ")");
 
 
                 var save_bill = document.getElementsByName('save_bill');
@@ -129,6 +131,7 @@ $(document).ready(function(){
                                 url : '/save_bill',
                                 data: {_id: id},
                                 success: function(data){
+                                    alert("Bill Saved");
                                 }
                             });
 
@@ -149,6 +152,35 @@ $(document).ready(function(){
                                 url : '/print_bill',
                                 data: {_id: id},
                                 success: function(data){
+                                    data = JSON.parse(data);
+
+                                    for (var i = 0; i < data.length; i++) {
+                                        var currentDate = new Date();
+
+                                        var array = data[i].order.split(",");
+                                        console.log(array);
+
+                                        var html = "<table class='table table-responsive table-light'>";
+                                        var html1;
+
+                                        html1+="<tr><td>Restaurant  Bill - Table ("+data[i].table_no+")</td></tr>";
+                                        html+="<tr><td>ADDRESS: All Saints Campus, Metropolitan University, Manchester M15 6BH</td></tr>";
+                                        html+="<tr><td>CONTACT: 0161 247 1358</td></tr>";
+                                        html+="<tr><td> DATE: "+currentDate+"</td></tr>";
+                                        html+="<tr><td> ORDER: "+array+"</td></tr>";
+                                        html+="<tr><td> TOTAL: £"+data[i].total+"</td></tr>";
+                                        html+="<tr><td></td></tr>";
+                                        html+="<tr><td>THANK YOU, SEE YOU NEXT TIME</td></tr>";
+
+                                        html+="</tbody>";
+
+                                        html+="</table>";
+                                        $("#modal_head").html(html1);
+                                        $("#modal_order").html(html);
+                                    }
+
+
+
                                 }
                             });
 
@@ -168,6 +200,7 @@ $(document).ready(function(){
                                 url : '/del_bill',
                                 data: {_id: id},
                                 success: function(data){
+                                    alert("Bill Deleted");
                                 }
                             });
                             this.parentElement.style.display = 'none';
@@ -207,7 +240,7 @@ $(document).ready(function(){
                 for (var i = 0; i < data.length; i++) {
 
                     html+="<option>"+data[i].desc+"</option>";
-                    html2+="<option>"+data[i].desc+" [£"+data[i].price+"]</option>";
+                    html2+="<option>"+data[i].desc+" [£"+data[i].price.toFixed(2)+"]</option>";
                     html3+="<option>"+data[i].desc+"</option>";
                     html4+="<option>"+data[i].desc+"</option>";
 
@@ -217,7 +250,7 @@ $(document).ready(function(){
                 $("#menu_list_view").html(html2);
                 $("#upd_menu_list").html(html3);
                 $("#del_menu_list").html(html4);
-                
+
             }
         }); 
         setTimeout(updateMenu, 60000);
@@ -326,13 +359,17 @@ function newElement1(){
 function delMenuItem(){
     var inputValue = document.getElementById('del_item').value;
 
-    $.ajax({
-        type : 'POST',
-        url : '/del_item',
-        data: {desc: inputValue},
-        success: function(data){
-        }
-    });
+    var check = confirm('Do you want to delete this menu item?');
+    if(check == true) {
+        $.ajax({
+            type : 'POST',
+            url : '/del_item',
+            data: {desc: inputValue},
+            success: function(data){
+            }
+        });
+
+    };
 
 }
 
@@ -341,5 +378,16 @@ function clearOrder(){
     total = 0;
     document.getElementById('order_ul').innerHTML = "";
     document.getElementById('order_text').innerHTML = array;
+    document.getElementById('note_text').innerHTML = "";
     document.getElementById('total').innerHTML = "";
+}
+
+// David - pdf print code
+function printData()
+{
+    var divToPrint=document.getElementById("modal_order");
+    newWindow = window.open("");
+    newWindow.document.write(divToPrint.outerHTML);
+    newWindow.print();
+    newWindow.close();
 }
