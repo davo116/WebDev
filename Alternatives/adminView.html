@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+  <head>
+		<html lang="en">   
+		<title>Admin View</title>
+  </head>
+  
+  <html>
+	<body onload="fillTable()">
+		
+		<h1>
+			Current Menu Items
+		</h1>
+	
+		<table id="menuTable">
+			<tr>
+				<th>
+					Menu Type
+				</th>
+				<th>
+					Menu Item
+				</th>
+				<th>
+					Item Price
+				</th>
+				
+			</tr>
+		</table>
+		
+		
+	<Script>
+	
+	var menu = [{menuType:"Main", menuItem:"Pizza", itemPrice:"£7.50"},
+	{menuType:"Starter", menuItem:"Fondue",itemPrice:"£4.60"},
+	{menuType:"Drink", menuItem:"Coke", itemPrice:"£1.90"},
+	{menuType:"Side", menuItem:"Doughballs", itemPrice:"£1.20"},
+	{menuType:"Dessert", menuItem:"Icecream", itemPrice:"£2.30"}];
+		
+		function fillTable()
+		{
+			var fillTable = document.getElementById('menuTable');
+			
+			for (var i=0; i < menu.length; i++)
+			{
+				fillTable.innerHTML = fillTable.innerHTML +'<tr><td>' + menu[i]['menuType'] + '</td><td>' + menu[i]['menuItem'] + '</td><td>' + menu[i]['itemPrice'] + '</td><td><input type="button" id="deleteButton" value="delete" onClick="rowDelete(this)"></td></tr>';
+			}
+		
+		}
+		
+		function addToTable()
+		{
+			var table = document.getElementById('menuTable');
+			var rowCount = table.rows.length;
+			var tableRow = table.insertRow(rowCount);
+			var cell1 = tableRow.insertCell(0);
+			var cell2 = tableRow.insertCell(1);
+			var cell3 = tableRow.insertCell(2);
+			var cell4 = tableRow.insertCell(3);
+			
+			var type = document.getElementById('menuTypeBox').value;
+			var item = document.getElementById('menuItemBox').value;
+			var price = document.getElementById('itemPriceBox').value;
+			var deleteButton = document.getElementById('deleteButton');
+			
+			cell1.innerHTML = type;
+			cell2.innerHTML = item;
+			cell3.innerHTML = price;
+			cell4.innerHTML = '<input type="button" id="deleteButton" value="delete" onClick="rowDelete(this)">';
+		}
+		
+		
+		function rowDelete(r)
+		{
+			var i = r.parentNode.parentNode.rowIndex;
+			document.getElementById("menuTable").deleteRow(i);
+		}
+		
+		
+	</script>
+	
+	
+		<br><br><br>
+		<h1>
+			Add new menu item 
+		</h1>
+	
+		<p>
+			Input the menu type here
+			<input type = "text" id = "menuTypeBox" name = "menuTypeBox"></input>
+			<br><br>
+	
+			Input the menu item here
+			<input type = "text" id = "menuItemBox"  name = "menuItemBox"></input>
+			<br><br>
+	
+			Input the item price here
+			<input type = "text" id = "itemPriceBox"  name = "itemPriceBox"></input>
+			<br><br>
+		
+			<input type = "button" value ="submit" onclick = "addToTable()" id = "submitButton" name = "submitButton"></input>
+			<br><br><br>
+			
+		</p>
+		
+
+
+	</body>
+		
+	
+	<style>
+	h1
+	{
+		 text-align: center;
+	}
+
+
+	table
+	{
+		border: solid;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		margin-left: 495px;
+	}
+
+	th
+	{
+		padding-right: 20px;
+		padding-left: 20px;
+	}
+
+	td
+	{
+		padding-right: 20px;
+		padding-left: 20px;
+	}
+
+	p
+	{
+		text-align: center;
+	}
+
+	</style>
+		
+
+  </html>
