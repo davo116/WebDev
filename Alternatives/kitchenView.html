@@ -1,0 +1,68 @@
+<html>
+	<title>Kitchen View</title>
+	<body onload="populateTable()">
+		<h1>Orders to cook</h1>
+		<table id="table">
+			
+			<tr>
+					<td>Table Number</td>
+					<td>Menu Item</td>
+					<td>Quantity</td>
+					<td>Time Ordered</td>
+					<td>Current Time</td>
+					<td>Complete</td>
+			</tr>
+		</table>
+	<script>
+		var menu = [{TableNumber:"1", Type:"Starter", MenuItem:"Fondue", Quantity:"1", Price:"£4.60", OrderTime:"09:29:05"},
+			{TableNumber:"1", Type:"Main", MenuItem:"Pizza", Quantity:"1", Price:"£7.50", OrderTime:"10:29:50"},
+			{TableNumber:"4", Type:"Main", MenuItem:"Pizza", Quantity:"1", Price:"£7.50", OrderTime:"12:39:55"},
+			{TableNumber:"3", Type:"Main", MenuItem:"Pizza", Quantity:"2", Price:"£7.50", OrderTime:"11:29:12"},
+			{TableNumber:"4", Type:"Drink", MenuItem:"Coke", Quantity:"3", Price:"£1.90", OrderTime:"10:25:50"}, 
+			{TableNumber:"1", Type:"Drink", MenuItem:"Coke", Quantity:"3", Price:"£1.90", OrderTime:"16:15:30"},
+			{TableNumber:"5", Type:"Side", MenuItem:"Dough balls", Quantity:"2", Price:"£1.20", OrderTime:"14:39:50"}, 
+			{TableNumber:"5", Type:"Dessert", MenuItem:"Ice cream", Quantity:"1", Price:"£2.30", OrderTime:"13:42:50"}];
+			
+			var today = new Date();
+			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			
+			
+			function populateTable()
+			{
+				var tableFill = document.getElementById('table');
+				
+				for (var i = 0; i < menu.length; i++) 
+				{
+					tableFill.innerHTML = tableFill.innerHTML +'<tr><td>' + menu[i]['TableNumber'] + '</td><td>' + menu[i]['MenuItem'] + '</td><td>' + menu[i]['Quantity'] + '</td><td>' + menu[i]['OrderTime'] + '</td><td>' + time + '</td><td><input type="button" value="Complete" onclick="deleteRow(this)"></td></tr>';
+				}
+			}
+			
+			
+			function deleteRow(r) 
+			{
+				var i = r.parentNode.parentNode.rowIndex;
+				document.getElementById("table").deleteRow(i);
+			}
+			
+	</script>
+	<style>
+		h1{
+			 text-align: center;
+		}
+		table {
+  				border-collapse: collapse;
+  				border: solid;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				margin-left: 405px;
+			}
+
+			table, th, td {
+  				border: 1px solid black;
+  				padding-right: 20px;
+				padding-left: 20px;
+			}
+	</style>
+	
+	</body>
+</html>
