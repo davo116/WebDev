@@ -8,3 +8,5 @@ Group 3
  - usernamehere - Cody Lawson - 15091397
  - usernamehere - Luke Mather - 16016487
  - usernamehere - Scott Davies - 16032557
+
+Setup README is inside APP folder.
