@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html land="en">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Admin</title>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+        <script src='/javascripts/main.js'></script>
+    </head>
+
+    <body style="background-color: dimgrey">
+        <!--        Page Container-->
+        <div class="container-fluid">
+
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+                <!--                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="collapsibleNavbar">
+<ul class="navbar-nav">
+<li class="nav-item m-2">
+<button type="submit" value="Send" id="home" class="btn btn-primary">Home</button>
+</li>
+<li class="nav-item m-2">
+<button type="submit" value="Send" id="order" class="btn btn-primary">Order</button>
+</li>
+<li class="nav-item m-2">
+<button type="submit" value="Send" id="kitchen" class="btn btn-primary">Kitchen</button>
+</li>
+<li class="nav-item m-2">
+<button type="submit" value="Send" id="counter" class="btn btn-primary">Counter</button>
+</li>
+<li class="nav-item m-2">
+<button type="submit" value="Send" id="Admin" class="btn btn-primary">Admin</button>
+</li>
+</ul>
+</div>-->
+
+                <ul class="navbar-nav">
+                    <li class="nav-item-right  m-2">
+                        <button type="submit" value="Send" id="logout" class="btn btn-primary btn-block">Logout</button>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="row">
+
+                <div id="mainCon" class="container-fluid col-sm-5">
+                    <div class="card">
+                        <div class="card-header text-center"><h3>Admin Options</h3></div>
+                        <div class="card-body">
+                            <form id="add_item_form" action="add_item" method="post" style="margin:5px">
+                                <div class="form-group">
+                                    <label for="add_item">Add Menu Item</label>
+                                    <input type="text" class="form-control" id="add_item" name="add_item" placeholder="Item Name" required>
+                                    <input type="number" step="0.01" class="form-control" id="add_price" name="add_price" placeholder="0.00" min="0" required>
+                                    <button type="submit" value="Send" class="btn btn-primary btn-block">Add Item</button>
+                                </div>
+                            </form>
+                            <form id="del_item_form" action="del_item" method="post" style="margin:5px">
+                                <div class="form-group">
+                                    <label for="table">Delete Menu Item</label>
+                                    <div id="del_menu_list"></div>
+                                    <button type="button" onclick="delMenuItem()" id="delBtn" class="btn btn-primary btn-block">Delete Item</button>
+                                </div>
+                            </form>
+                            <form id="upd_item_form" action="upd_item" method="post" style="margin:5px">
+                                <div class="form-group">
+                                    <label for="table">Update Item Price</label>
+                                    <div id="upd_menu_list"></div>
+                                    <input type="number" step="0.01" class="form-control" id="upd_price" name="upd_price" placeholder="0.00" min="0" required>
+                                    <button type="submit" value="Send" class="btn btn-primary btn-block">Update Item</button>
+                                </div>
+                            </form>
+                            <div class="form-group">
+                                <label for="table">View Menu</label>
+                                <div id="menu_list_view"></div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">Use this form to manage admin features.</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div id="mainCon" class="container-fluid col-sm-10">
+                    <table class="results1">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                    <div id="results"></div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </body>
+</html>
