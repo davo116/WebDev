@@ -5,7 +5,7 @@ Group 3
 
  - MrGuBerry - Connor Partington - 16062949
  - davo116 - David Beattie - 16011511
- - usernamehere - Cody Lawson - 15091397
+ - CodyLawsonn - Cody Lawson - 15091397
  - usernamehere - Luke Mather - 16016487
  - usernamehere - Scott Davies - 16032557
 
