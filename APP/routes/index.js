@@ -26,6 +26,8 @@ router.post('/login', function(req, res){
                     description: 'Invalid login details!'
                 });
             } else {
+                //res.cookie('loggedIn', {username: username, acc_lvl: acc_lvl}, { signed, maxAge: seconds * 1000});
+                res.cookie('loggedIn', {username: username, acc_lvl: acc_lvl}, {maxAge: 86400000, httpOnly: true});
                 if (acc_lvl === "Waiter") {
                     res.redirect('/waiter');
                 } else if (acc_lvl === "Kitchen") {
@@ -49,6 +51,8 @@ router.post('/login', function(req, res){
 //POST user clicks to login
 router.post('/logout', function(req, res){
     console.log("test logout");
+    res.cookie('loggedIn', {username: "", acc_lvl: ""}, {maxAge: 0});
+    res.redirect('/');
 });
 
 
@@ -57,6 +61,7 @@ router.post('/logout', function(req, res){
 
 //GET root - display login form
 router.get('/', function(req, res) {
+    res.cookie('loggedIn', {username: "", acc_lvl: ""});
     res.render('index', { 
         data: '',
         title: 'Restaurant App Login',
@@ -66,26 +71,46 @@ router.get('/', function(req, res) {
 
 //GET waiter page
 router.get('/waiter', function(req, res) {
-    res.render('waiter', { 
-        data: '',
-        title: 'Order Form',
-        description: 'Place orders here.'
-    });
+    var acc_lvl = req.cookies.loggedIn.acc_lvl;
+    if (acc_lvl == "Waiter" || "Admin") {
+        res.render('waiter', { 
+            data: '',
+            title: 'Order Form',
+            description: 'Place orders here.'
+        });
+    } else {
+        res.send("Access Denied - Waiter staff only. Please login under the correct level.");
+    }
 });
 
 //GET kitchen page
 router.get('/kitchen', function(req, res) {
-    res.render('kitchen');
+    var acc_lvl = req.cookies.loggedIn.acc_lvl;
+    if (acc_lvl == "Kitchen" || "Admin") {
+        res.render('kitchen');
+    } else {
+        res.send("Access Denied - Kitchen staff only. Please login under the correct level.");
+    }
 });
 
 //GET counter page
 router.get('/counter', function(req, res) {
-    res.render('counter');
+    var acc_lvl = req.cookies.loggedIn.acc_lvl;
+    if (acc_lvl == "Counter" || "Admin") {
+        res.render('counter');
+    } else {
+        res.send("Access Denied - Counter staff only. Please login under the correct level.");
+    }
 });
 
 //GET admin page
 router.get('/admin', function(req, res) {
-    res.render('admin');
+    var acc_lvl = req.cookies.loggedIn.acc_lvl;
+    if (acc_lvl == "Admin") {
+        res.render('admin');
+    } else {
+        res.send("Access Denied - Admin staff only. Please login under the correct level.");
+    }
 });
 
 
@@ -188,7 +213,7 @@ router.post('/order', function(req, res) {
 });
 
 //POST finds order, copies order to completed orders table, deletes original order.
-router.post('/deleteOrder', function(req, res) {
+router.post('/comOrder', function(req, res) {
 
     MongoClient.connect(url, function(err,db){ 
         if (err) throw err;
@@ -354,6 +379,29 @@ router.post('/del_bill', function(req, res) {
 
 
 
+//POST display weekly income to counter
+router.post('/get_weekly', function(req, res) {
+
+    MongoClient.connect(url, function(err,db){ 
+        if (err) throw err;
+        var myDB = db.db('res_db');
+        myDB.collection("saved_bills").find({}, { projection: { _id: 0, total: 1 } }).sort({order_time: -1}).toArray(function(err, results) {
+            if (err) throw err;
+            console.log(results);
+            var results = parseInt(results);
+
+            for (var i = 0, income = 0; i < results.length; income += results[i++]);
+
+            console.log(income);
+
+
+            db.close();
+        });
+    });
+});
+
+
+
 //
 //Admin
 //
@@ -404,7 +452,7 @@ router.post('/del_item', function(req, res) {
                 console.log("1 menu item deleted");
                 db.close();
             }
-            
+
         });
         res.redirect('/admin');
     });
@@ -434,21 +482,6 @@ router.post('/upd_item', function(req, res) {
         res.render('admin');
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
