@@ -1,0 +1,36 @@
+// Staff Data
+
+{ username: "Staff1", password: "password", acc_lvl: "Waiter"},
+{ username: "Staff2", password: "password", acc_lvl: "Kitchen"},
+{ username: "Staff3", password: "password", acc_lvl: "Counter"},
+{ username: "Staff4", password: "password", acc_lvl: "Admin"}
+
+// Customer Order Data
+
+{ order_time: Date.now(), table_no: 0, order: "Placeholder Order", notes: "Placeholder Note", total: 0}
+
+// Menu Data
+
+{ desc: "M1 Chicken Breast with veg", price: 5.80},
+{ desc: "M2 Beef Soup", price: 4.50},
+{ desc: "M3 Mix Grill", price: 6.70},
+{ desc: "M4 Salt and Pepper Bites", price: 4},
+{ desc: "M5 Double Cooked Pork", price: 7},
+{ desc: "S1 Spring Rolls", price: 2.20},
+{ desc: "S2 Chips", price: 1.50},
+{ desc: "S3 Gravy", price: 0.50},
+{ desc: "S4 Hot Sauce", price: 0.50},
+{ desc: "S5 Rice", price: 1},
+{ desc: "D1 Water", price: 0.70},
+{ desc: "D2 Coke", price: 1.10},
+{ desc: "D3 Beer", price: 3.50},
+{ desc: "D4 Orange Juice", price: 1.50},
+{ desc: "D5 Wine", price: 30.00}
+
+// Completed Order Data
+
+{ order_time: Date.now(), table_no: 0, order: "Placeholder Order", notes: "Placeholder Note", total: 0}
+
+// Bill Data
+
+{ save_time: Date.now(), total: 0}
