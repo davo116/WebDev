@@ -17,7 +17,7 @@ node databaseSetup.js
 node app.js
 
 3.
-# This will load the login page.
+# This will load the login page (index.html).
 http://localhost:3000
 
 4.
@@ -29,6 +29,22 @@ Kitchen - Staff2 - password
 Counter - Staff3 - password
 Admin - Staff4 - password
 
+
+
+Testing:
+
+Login as admin and load all webpages in seperate tabs if you want to view/test all in one go.
+
+Admin can view all pages:
+http://localhost:3000/waiter
+http://localhost:3000/kitchen
+http://localhost:3000/counter
+http://localhost:3000/admin
+
+Waiter - Select table and items, delete items, add a note, place order.
+Kitchen - View the place order, waiting time, and complete the order. (Updates every 10s)
+Counter - View completed orders, save, delete or print a bill, preview bill, print as .pdf. (Updates every minute)
+Admin - View menu/prices, add item, delete item, update item. (Updates every minute)
 
 
 
@@ -77,7 +93,18 @@ Update Item Price - Select item to update and add new price
 
 View Menu - Displays all current menu items and the prices.
 
+Can view all pages:
+http://localhost:3000/waiter
+http://localhost:3000/kitchen
+http://localhost:3000/counter
+http://localhost:3000/admin
 
+
+#All Pages
+
+Logout - Logs user out but render/redirect is currently broken for this.
+
+If not logged in a message is displayed on the webpage.
 
 
 
