@@ -1,5 +1,28 @@
 $(document).ready(function(){
 
+/*
+    // Get the start of the week date
+    function weekThis(date)
+    {
+        var start = new Date(); 
+        var end = new Date(); 
+
+        var diff = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
+        return new Date(date.setDate(diff));
+        console.log(startOfWeek(start).toString());
+
+        var lastday = date.getDate() - (date.getDay() - 1) + 6;
+        return new Date(date.setDate(lastday));
+        console.log(endOfWeek(end).toString());
+
+    }
+*/
+
+
+
+
+
+
     $("#logout").click(function(){
         $.ajax({
             type : 'POST',
@@ -60,7 +83,7 @@ $(document).ready(function(){
                             //console.log(id);
                             $.ajax({
                                 type : 'POST',
-                                url : '/deleteOrder',
+                                url : '/comOrder',
                                 data: {_id: id},
                                 success: function(data){
                                     alert("Completion Sent");
@@ -382,7 +405,20 @@ function clearOrder(){
     document.getElementById('total').innerHTML = "";
 }
 
-// David - pdf print code
+function getWeekly() {
+    $.ajax({
+        type : 'POST',
+        url : '/get_weekly',
+        success: function(data){
+        }
+    });
+}
+
+
+
+//
+// David Beattie - 16011511 - pdf print code
+//
 function printData()
 {
     var divToPrint=document.getElementById("modal_order");
@@ -391,3 +427,11 @@ function printData()
     newWindow.print();
     newWindow.close();
 }
+//
+//
+//
+
+
+
+
+
